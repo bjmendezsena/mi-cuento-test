@@ -12,7 +12,7 @@ const config: Config = {
   transform: {
     "^.+\\.ts$": "ts-jest",
   },
-  setupFilesAfterEnv: ["<rootDir>/src/test/setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/src/config/setup-test.ts"],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: "<rootDir>/src/",
   }),

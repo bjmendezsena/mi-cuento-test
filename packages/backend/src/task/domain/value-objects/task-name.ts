@@ -1,6 +1,10 @@
 import { ValueObject } from "@/shared/domain";
+import {
+  TaskNameCannotBeEmptyException,
+  TaskNameCannotBeLongerThan100CharactersException,
+} from "@/task/domain";
 
-export class TaskName extends ValueObject<string> {
+export class TaskTitle extends ValueObject<string> {
   constructor(value: string) {
     super(value);
     this.ensureValidName(value);
@@ -8,15 +12,15 @@ export class TaskName extends ValueObject<string> {
 
   private ensureValidName(value: string): void {
     if (value.length < 1) {
-      throw new Error("Task name cannot be empty");
+      throw new TaskNameCannotBeEmptyException();
     }
 
     if (value.length > 100) {
-      throw new Error("Task name cannot be longer than 100 characters");
+      throw new TaskNameCannotBeLongerThan100CharactersException();
     }
   }
 
-  static create(value: string): TaskName {
-    return new TaskName(value);
+  static create(value: string): TaskTitle {
+    return new TaskTitle(value);
   }
 }

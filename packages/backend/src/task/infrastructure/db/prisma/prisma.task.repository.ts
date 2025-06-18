@@ -1,41 +1,81 @@
+import { Prisma } from "@prisma/client";
 import { Injectable } from "@nestjs/common";
-import { Task, TaskId, TaskRepository, TaskStatusValue } from "@/task/domain";
+import {
+  Task,
+  TaskId,
+  TaskRepository,
+  TaskNotFoundException,
+  TasksFilters,
+  TaskDueDate,
+  TaskStatus,
+} from "@/task/domain";
 import { PrismaService } from "@/shared/infrastructure";
 import { TaskMapper } from "./task.mapper";
 
+type Where = Prisma.TaskWhereInput;
+
 @Injectable()
 export class PrismaTaskRepository implements TaskRepository {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly taskMapper: TaskMapper
-  ) {}
-  findById(id: TaskId): Promise<Task | null> {
-    throw new Error("Method not implemented.");
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async findById(id: TaskId): Promise<Task> {
+    const task = await this.prismaService.task.findUnique({
+      where: {
+        id: id.value,
+      },
+    });
+
+    if (!task) {
+      throw new TaskNotFoundException("id", id.value);
+    }
+
+    return TaskMapper.toDomain(task);
   }
-  findAll(): Promise<Task[]> {
-    throw new Error("Method not implemented.");
+  async findAll(filters?: TasksFilters): Promise<Task[]> {
+    const where: Where = {};
+
+    if (filters?.status) {
+      const status = new TaskStatus(filters.status);
+      const now = TaskDueDate.now();
+
+      if (status.isOverdue) {
+        where.dueDate = {
+          lt: now.value,
+        };
+      } else {
+        where.dueDate = {
+          gte: now.value,
+        };
+      }
+    }
+
+    const tasks = await this.prismaService.task.findMany({
+      where,
+    });
+    return tasks.map(TaskMapper.toDomain);
   }
-  findByStatus(status: TaskStatusValue): Promise<Task[]> {
-    throw new Error("Method not implemented.");
+
+  async delete(id: TaskId): Promise<void> {
+    const taskToDelete = await this.findById(id);
+
+    await this.prismaService.task.delete({
+      where: {
+        id: taskToDelete.id.value,
+      },
+    });
   }
-  delete(id: TaskId): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-  update(task: Task): Promise<void> {
-    throw new Error("Method not implemented.");
+  async update(task: Task): Promise<void> {
+    await this.prismaService.task.update({
+      where: {
+        id: task.id.value,
+      },
+      data: TaskMapper.toPersistence(task),
+    });
   }
 
   async save(task: Task): Promise<void> {
-    const taskModel = this.taskMapper.toPersistence(task);
-
     await this.prismaService.task.create({
-      data: {
-        id: taskModel.id.value,
-        name: taskModel.name.value,
-        dueDate: taskModel.dueDate.value,
-        priority: taskModel.priority.value,
-        status: taskModel.status.value,
-      },
+      data: TaskMapper.toPersistence(task),
     });
   }
 }

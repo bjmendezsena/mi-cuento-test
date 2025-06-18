@@ -1,11 +1,19 @@
+import { IsString, IsOptional } from "class-validator";
 import { Injectable } from "@nestjs/common";
-import { Task, TaskRepository, TaskStatusValue } from "@/task/domain";
+import { TaskRepository, TaskStatusValue } from "@/task/domain";
 
 @Injectable()
 export class FindTasksUseCase {
   constructor(private readonly taskRepository: TaskRepository) {}
+  async execute(filters?: FindTasksFilters) {
+    const taskList = await this.taskRepository.findAll(filters);
 
-  async execute(status?: TaskStatusValue): Promise<Task[]> {
-    return this.taskRepository.findAll();
+    return taskList.map((task) => task.toJSON());
   }
+}
+
+export class FindTasksFilters {
+  @IsString()
+  @IsOptional()
+  status?: TaskStatusValue;
 }

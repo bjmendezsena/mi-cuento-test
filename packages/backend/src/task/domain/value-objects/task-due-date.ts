@@ -1,28 +1,37 @@
+import * as dateFns from "date-fns";
 import { ValueObject } from "@/shared/domain";
+import { InvalidDueDateException } from "@/task/domain";
 
-export class TaskDueDate extends ValueObject<Date> {
-  constructor(value: Date) {
+export class TaskDueDate extends ValueObject<string> {
+  public static FORMAT_DATE = "yyyy-MM-dd";
+  constructor(value: string) {
     super(value);
     this.ensureValidDate(value);
   }
 
-  private ensureValidDate(value: Date): void {
-    if (!(value instanceof Date) || isNaN(value.getTime())) {
-      throw new Error("Invalid due date");
+  private ensureValidDate(value: string): void {
+    if (isNaN(Date.parse(value))) {
+      throw new InvalidDueDateException();
     }
   }
 
-  static create(value: string | Date): TaskDueDate {
-    const date = value instanceof Date ? value : new Date(value);
-    return new TaskDueDate(date);
+  static create(value: Date | string): TaskDueDate {
+    let stringDate: string;
+    if (value instanceof Date) {
+      stringDate = dateFns.format(value, TaskDueDate.FORMAT_DATE);
+    } else {
+      stringDate = value;
+    }
+
+    return new TaskDueDate(stringDate);
+  }
+
+  static now(): TaskDueDate {
+    return new TaskDueDate(dateFns.format(new Date(), TaskDueDate.FORMAT_DATE));
   }
 
   isOverdue(): boolean {
-    const now = new Date();
+    const now = dateFns.format(new Date(), TaskDueDate.FORMAT_DATE);
     return this.value < now;
-  }
-
-  toString(): string {
-    return this.value.toISOString().split("T")[0];
   }
 }

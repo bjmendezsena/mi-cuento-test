@@ -9,10 +9,6 @@ export class DeleteTaskUseCase {
     const taskId = new TaskId(id);
     const task = await this.taskRepository.findById(taskId);
 
-    if (!task) {
-      throw new Error(`Task with id ${id} not found`);
-    }
-
-    await this.taskRepository.delete(taskId);
+    await this.taskRepository.delete(task.id);
   }
 }

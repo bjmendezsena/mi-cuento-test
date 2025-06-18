@@ -1,4 +1,8 @@
 import { ValueObject } from "@/shared/domain";
+import {
+  PriorityMustBeAnIntegerException,
+  PriorityMustBeBetween1And5Exception,
+} from "@/task/domain";
 
 export class TaskPriority extends ValueObject<number> {
   constructor(value: number) {
@@ -8,11 +12,11 @@ export class TaskPriority extends ValueObject<number> {
 
   private ensureValidPriority(value: number): void {
     if (!Number.isInteger(value)) {
-      throw new Error("Priority must be an integer");
+      throw new PriorityMustBeAnIntegerException();
     }
 
     if (value < 1 || value > 5) {
-      throw new Error("Priority must be between 1 and 5");
+      throw new PriorityMustBeBetween1And5Exception();
     }
   }
 

@@ -1,10 +1,9 @@
-import { Task, TaskId, TaskStatusValue } from "@/task/domain";
+import { TasksFilters, Task, TaskId } from "@/task/domain";
 
-export interface TaskRepository {
-  save(task: Task): Promise<void>;
-  findById(id: TaskId): Promise<Task | null>;
-  findAll(): Promise<Task[]>;
-  findByStatus(status: TaskStatusValue): Promise<Task[]>;
-  delete(id: TaskId): Promise<void>;
-  update(task: Task): Promise<void>;
+export abstract class TaskRepository {
+  abstract save(task: Task): Promise<void>;
+  abstract findById(id: TaskId): Promise<Task>;
+  abstract findAll(filters?: TasksFilters): Promise<Task[]>;
+  abstract delete(id: TaskId): Promise<void>;
+  abstract update(task: Task): Promise<void>;
 }

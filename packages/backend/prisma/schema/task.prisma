@@ -1,12 +1,9 @@
 model Task {
-    id          Int    @id @default(autoincrement())
+    id          String @id
     title       String
     description String
-    owner       Int
-    creator     Int
     dueDate     String
     priority    Int
-    status      Int
 
     updatedAt DateTime @updatedAt
     createdAt DateTime @default(now())

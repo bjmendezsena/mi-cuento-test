@@ -1,22 +1,22 @@
-import { AggregateRoot } from "@/shared/domain";
 import {
   TaskId,
-  TaskName,
+  TaskTitle,
   TaskDueDate,
   TaskPriority,
   TaskStatus,
+  TaskDescription,
+  TaskStatusValue,
 } from "./value-objects";
 
-export class Task extends AggregateRoot {
+export class Task {
   constructor(
     public readonly id: TaskId,
-    public name: TaskName,
+    public title: TaskTitle,
+    public description: TaskDescription,
     public dueDate: TaskDueDate,
     public priority: TaskPriority,
     public status: TaskStatus
-  ) {
-    super();
-  }
+  ) {}
 
   public get isOverdue(): boolean {
     return this.status.isOverdue;
@@ -24,32 +24,51 @@ export class Task extends AggregateRoot {
 
   public static create(
     id: TaskId,
-    name: TaskName,
+    name: TaskTitle,
+    description: TaskDescription,
     dueDate: TaskDueDate,
     priority: TaskPriority
   ): Task {
     const status = TaskStatus.create(dueDate);
-    return new Task(id, name, dueDate, priority, status);
+    return new Task(id, name, description, dueDate, priority, status);
   }
 
   public update(
-    name: TaskName,
+    name: TaskTitle,
+    description: TaskDescription,
     dueDate: TaskDueDate,
     priority: TaskPriority
   ): void {
-    this.name = name;
+    this.title = name;
+    this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.status = TaskStatus.create(dueDate);
   }
 
-  public toPrimitives() {
+  public toJSON() {
     return {
       id: this.id.value,
-      name: this.name.value,
+      name: this.title.value,
+      description: this.description.value,
       dueDate: this.dueDate.value,
       priority: this.priority.value,
       status: this.status.value,
     };
   }
+
+  public toPrimitives() {
+    return {
+      id: this.id.value,
+      name: this.title.value,
+      description: this.description.value,
+      dueDate: this.dueDate.value,
+      priority: this.priority.value,
+      status: this.status.value,
+    };
+  }
+}
+
+export interface TasksFilters {
+  status?: TaskStatusValue;
 }
