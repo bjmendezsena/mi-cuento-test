@@ -8,6 +8,15 @@ import {
   TaskStatusValue,
 } from "./value-objects";
 
+export type TaskObject = {
+  id: string;
+  name: string;
+  description: string;
+  dueDate: string;
+  priority: number;
+  status: TaskStatusValue;
+};
+
 export class Task {
   constructor(
     public readonly id: TaskId,
@@ -46,7 +55,7 @@ export class Task {
     this.status = TaskStatus.create(dueDate);
   }
 
-  public toJSON() {
+  public toJSON(): TaskObject {
     return {
       id: this.id.value,
       name: this.title.value,
@@ -57,7 +66,7 @@ export class Task {
     };
   }
 
-  public toPrimitives() {
+  public toPrimitives(): TaskObject {
     return {
       id: this.id.value,
       name: this.title.value,
@@ -71,4 +80,6 @@ export class Task {
 
 export interface TasksFilters {
   status?: TaskStatusValue;
+  sortBy?: keyof Omit<TaskObject, "id" | "description" | "status">;
+  sortOrder?: "asc" | "desc";
 }

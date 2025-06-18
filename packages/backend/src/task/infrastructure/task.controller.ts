@@ -18,7 +18,7 @@ import {
   UpdateTaskUseCase,
   FindTasksFilters,
 } from "@/task/application";
-import { TaskStatusValue } from "@/task/domain";
+import { TaskStatusValue, TaskObject } from "@/task/domain";
 import { Injectable } from "@nestjs/common";
 
 @ApiTags("Tasks")
@@ -45,6 +45,25 @@ export class TaskController {
     },
     required: false,
     description: "Task status",
+  })
+  @ApiQuery({
+    name: "sortBy",
+    enumName: "sortBy",
+    schema: {
+      type: "string",
+    },
+    required: false,
+    description: "Task sort by",
+  })
+  @ApiQuery({
+    name: "sortOrder",
+    enumName: "sortOrder",
+    schema: {
+      type: "string",
+      enum: ["asc", "desc"],
+    },
+    required: false,
+    description: "Task sort order",
   })
   @ApiResponse({ status: 200, description: "Return all tasks" })
   @Get()

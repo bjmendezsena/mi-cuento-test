@@ -1,6 +1,6 @@
-import { IsString, IsOptional } from "class-validator";
+import { IsString, IsOptional, IsIn } from "class-validator";
 import { Injectable } from "@nestjs/common";
-import { TaskRepository, TaskStatusValue } from "@/task/domain";
+import { TaskObject, TaskRepository, TaskStatusValue } from "@/task/domain";
 
 @Injectable()
 export class FindTasksUseCase {
@@ -15,5 +15,16 @@ export class FindTasksUseCase {
 export class FindTasksFilters {
   @IsString()
   @IsOptional()
+  @IsIn(Object.values(TaskStatusValue))
   status?: TaskStatusValue;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(["title", "dueDate", "priority"])
+  sortBy?: keyof Omit<TaskObject, "id" | "description" | "status">;
+
+  @IsString()
+  @IsOptional()
+  @IsIn(["asc", "desc"])
+  sortOrder?: "asc" | "desc";
 }

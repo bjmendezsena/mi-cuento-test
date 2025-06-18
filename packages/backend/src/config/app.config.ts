@@ -26,7 +26,7 @@ export function configureApp(app: NestExpressApplication): void {
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory: (errors) => {
-        throw new ValidationException(errors);
+        throw new ValidationException(errors, "VALIDATION_ERROR");
       },
       whitelist: true,
       transform: true,

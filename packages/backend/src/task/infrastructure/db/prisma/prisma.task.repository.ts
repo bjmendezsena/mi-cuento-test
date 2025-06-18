@@ -13,6 +13,7 @@ import { PrismaService } from "@/shared/infrastructure";
 import { TaskMapper } from "./task.mapper";
 
 type Where = Prisma.TaskWhereInput;
+type OrderBy = Prisma.TaskOrderByWithRelationInput;
 
 @Injectable()
 export class PrismaTaskRepository implements TaskRepository {
@@ -33,6 +34,7 @@ export class PrismaTaskRepository implements TaskRepository {
   }
   async findAll(filters?: TasksFilters): Promise<Task[]> {
     const where: Where = {};
+    const orderBy: OrderBy = {};
 
     if (filters?.status) {
       const status = new TaskStatus(filters.status);
@@ -49,8 +51,14 @@ export class PrismaTaskRepository implements TaskRepository {
       }
     }
 
+    if (filters?.sortBy) {
+      const sortOrder = filters.sortOrder || "asc";
+      orderBy[filters.sortBy] = sortOrder;
+    }
+
     const tasks = await this.prismaService.task.findMany({
       where,
+      orderBy,
     });
     return tasks.map(TaskMapper.toDomain);
   }

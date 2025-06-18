@@ -6,7 +6,10 @@ export abstract class ValueObject<T> {
 
   private ensureValueIsDefined(value: T): void {
     if (value === null || value === undefined) {
-      throw new InvalidValueObjectException(this.constructor.name);
+      throw new InvalidValueObjectException(
+        this.constructor.name,
+        "VALUE_OBJECT_IS_NOT_DEFINED"
+      );
     }
   }
 
