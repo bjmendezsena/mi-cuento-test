@@ -1,0 +1,16 @@
+{
+  "name": "mi-cuento-test",
+  "version": "1.0.0",
+  "description": "Monorepo para mi-cuento-test con backend en NestJS y frontend en React",
+  "main": "index.js",
+  "scripts": {
+    "frontend:dev": "pnpm --filter frontend dev",
+    "backend:dev": "pnpm --filter backend dev",
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

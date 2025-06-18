@@ -1,0 +1,19 @@
+export abstract class AggregateRoot {
+  private domainEvents: Array<any>;
+
+  constructor() {
+    this.domainEvents = [];
+  }
+
+  pulldomainEvents(): Array<any> {
+    const domainEvents = this.domainEvents.slice();
+    this.domainEvents = [];
+    return domainEvents;
+  }
+
+  record(event: any): void {
+    this.domainEvents.push(event);
+  }
+
+  abstract toPrimitives(): any;
+}
