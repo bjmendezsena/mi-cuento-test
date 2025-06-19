@@ -6,16 +6,21 @@ import { queryKeys } from "./query-keys";
 
 const url = "/tasks";
 
-export const createTask = async (data: CreateOrUpdateTaskDto) => {
-  return apiClient.post<never, void>(url, data);
+export const updateTask = async ({
+  id,
+  ...body
+}: CreateOrUpdateTaskDto & {
+  id: string;
+}) => {
+  return apiClient.put<never, void>(`${url}/${id}`, body);
 };
 
-export type CreateTaskOptions = MutationConfig<typeof createTask>;
+export type UpdateTaskOptions = MutationConfig<typeof updateTask>;
 
-export const useCreateTask = (options?: CreateTaskOptions) => {
+export const useUpdateTask = (options?: UpdateTaskOptions) => {
   return useMutation({
-    mutationFn: createTask,
-    mutationKey: queryKeys.createTask(),
+    mutationFn: updateTask,
+    mutationKey: queryKeys.updateTask(),
     meta: {
       invalidatesQuery: queryKeys.all,
     },

@@ -12,20 +12,13 @@ export enum TaskStatus {
   OVERDUE = "OVERDUE",
 }
 
-export interface TasksFilters {
+export interface ITasksFilters {
   status?: TaskStatus;
   sortBy?: keyof Omit<Task, "id" | "description" | "status">;
   sortOrder?: "asc" | "desc";
 }
 
-export interface CreateTaskDto {
-  name: string;
-  description: string;
-  dueDate: string;
-  priority: number;
-}
-
-export interface UpdateTaskDto {
+export interface CreateOrUpdateTaskDto {
   name: string;
   description: string;
   dueDate: string;

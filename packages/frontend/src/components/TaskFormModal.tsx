@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Dialog,
   DialogTitle,
@@ -15,43 +14,30 @@ import {
   DateController,
   InputNumberController,
 } from "@/components";
-import { useCreateTask } from "@/modules/tasks";
-import { formatDate } from "@/utils";
-import type { CreateTaskDto } from "@/modules/tasks";
+import type { Task } from "@/modules/tasks";
 
-const FORMAT_DATE = "yyyy-MM-dd";
-
-interface AddTaskModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+export enum FormType {
+  Create = "create",
+  Edit = "edit",
 }
 
-export const AddTaskModal: React.FC<AddTaskModalProps> = ({
+interface TaskFormModalProps {
+  type: FormType;
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (task: Task) => void;
+  isLoading?: boolean;
+  defaultTask?: Task;
+}
+
+export const TaskFormModal: React.FC<TaskFormModalProps> = ({
   isOpen,
   onClose,
+  onSubmit,
+  isLoading,
+  defaultTask,
+  type,
 }) => {
-  const { mutate: createTask, isPending: isLoading } = useCreateTask();
-
-  const handleSubmit = ({
-    dueDate,
-    priority,
-    ...rest
-  }: Omit<CreateTaskDto, "dueDate" | "priority"> & {
-    dueDate: Date;
-    priority: string;
-  }) => {
-    const dto: CreateTaskDto = {
-      ...rest,
-      dueDate: formatDate(dueDate, FORMAT_DATE),
-      priority: Number(priority),
-    };
-    createTask(dto, {
-      onSuccess: () => {
-        onClose();
-      },
-    });
-  };
-
   return (
     <Dialog open={isOpen} onClose={onClose} maxWidth='sm' fullWidth>
       <DialogTitle>
@@ -70,9 +56,10 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
       </DialogTitle>
 
       <Form
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         options={{
           mode: "onChange",
+          defaultValues: defaultTask,
         }}
       >
         {({ control, formState }) => {
@@ -128,7 +115,7 @@ export const AddTaskModal: React.FC<AddTaskModalProps> = ({
                   disabled={!formState.isValid}
                   loading={isLoading}
                 >
-                  Add Task
+                  {type === FormType.Create ? "Add Task" : "Update Task"}
                 </Button>
               </DialogActions>
             </Box>

@@ -1,6 +1,5 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  Typography,
   Card,
   CardContent,
   Select,
@@ -8,12 +7,15 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import type { UseFormReturn } from "react-hook-form";
+import { TaskStatus, type ITasksFilters } from "@/modules/tasks";
 
-export const TaskFilter = () => {
-  const [statusFilter, setStatusFilter] = useState<"PENDING" | "OVERDUE" | "">(
-    ""
-  );
+export interface ITaskFilterProps {
+  filters?: ITasksFilters;
+  form: UseFormReturn<ITasksFilters, any, ITasksFilters>;
+}
 
+export const TaskFilter = ({ filters, form }: ITaskFilterProps) => {
   return (
     <Card
       sx={{
@@ -24,17 +26,20 @@ export const TaskFilter = () => {
       }}
     >
       <CardContent>
-        <Typography variant='h6' gutterBottom>
-          Filters
-        </Typography>
         <FormControl fullWidth>
           <InputLabel>Status</InputLabel>
           <Select
-            value={statusFilter}
+            value={filters?.status}
             label='Status'
-            onChange={(e) =>
-              setStatusFilter(e.target.value as "PENDING" | "OVERDUE" | "")
-            }
+            onChange={(e) => {
+              const statusMap: Record<string, TaskStatus> = {
+                PENDING: TaskStatus.PENDING,
+                OVERDUE: TaskStatus.OVERDUE,
+              };
+              const status = statusMap[e.target.value];
+
+              form.setValue("status", status);
+            }}
           >
             <MenuItem value=''>All Status</MenuItem>
             <MenuItem value='PENDING'>Pending</MenuItem>

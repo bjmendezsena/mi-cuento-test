@@ -29,9 +29,15 @@ export const queryClient = new QueryClient({
   defaultOptions: queryConfig,
   mutationCache: new MutationCache({
     onSettled(_, __, ___, ____, mutation) {
-      queryClient.invalidateQueries({
-        queryKey: mutation.meta?.invalidatesQuery,
-      });
+      if (mutation.meta?.invalidatesQuery) {
+        queryClient.invalidateQueries({
+          predicate(query) {
+            return query.queryKey.some((key) =>
+              mutation.meta?.invalidatesQuery?.includes(key)
+            );
+          },
+        });
+      }
     },
   }),
 });

@@ -86,6 +86,16 @@ src/
 ### Installation
 
 ```bash
+
+# Clone the repository
+git clone https://github.com/bjmendezsena/mi-cuento-test.git
+
+# Navigate to the project directory
+cd mi-cuento-test
+
+# Run docker compose
+docker-compose -f mi-cuento-container/docker-compose.base.yml up -d
+
 # Install dependencies
 pnpm install
 
