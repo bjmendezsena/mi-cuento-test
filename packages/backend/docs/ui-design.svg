@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles -->
+  <style>
+    .title { font: bold 24px sans-serif; }
+    .header-text { font: bold 18px sans-serif; fill: white; }
+    .button { font: 14px sans-serif; fill: white; }
+    .task-title { font: bold 16px sans-serif; }
+    .task-desc { font: 14px sans-serif; }
+    .status { font: 12px sans-serif; }
+  </style>
+
+  <!-- Main Container -->
+  <rect width="1200" height="800" fill="#f5f5f5"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="60" fill="#2196F3"/>
+  <text x="30" y="38" class="header-text">Task Management System</text>
+  
+  <!-- Add Task Button -->
+  <rect x="1050" y="15" width="120" height="30" rx="15" fill="#4CAF50"/>
+  <text x="1110" y="35" text-anchor="middle" class="button">+ Add Task</text>
+
+  <!-- Sidebar -->
+  <rect x="0" y="60" width="250" height="740" fill="white"/>
+  <rect x="0" y="60" width="250" height="740" fill="#fafafa"/>
+  
+  <!-- Filter Section -->
+  <text x="20" y="100" class="task-title">Filters</text>
+  <rect x="20" y="120" width="210" height="40" rx="5" fill="white" stroke="#e0e0e0"/>
+  <text x="35" y="145" class="task-desc">Status: All</text>
+
+  <!-- Main Content Area -->
+  <rect x="270" y="80" width="910" height="700" fill="white" rx="10"/>
+
+  <!-- Task Cards -->
+  <!-- Task 1 -->
+  <rect x="290" y="100" width="870" height="100" fill="white" stroke="#e0e0e0" rx="5"/>
+  <text x="310" y="130" class="task-title">Complete Project Documentation</text>
+  <text x="310" y="155" class="task-desc">Write comprehensive documentation for the project architecture...</text>
+  <rect x="310" y="170" width="80" height="20" rx="10" fill="#2196F3"/>
+  <text x="350" y="185" class="status" fill="white">PENDING</text>
+
+  <!-- Task 2 -->
+  <rect x="290" y="220" width="870" height="100" fill="white" stroke="#e0e0e0" rx="5"/>
+  <text x="310" y="250" class="task-title">Review Pull Requests</text>
+  <text x="310" y="275" class="task-desc">Review and merge pending pull requests for the main feature...</text>
+  <rect x="310" y="290" width="80" height="20" rx="10" fill="#f44336"/>
+  <text x="350" y="305" class="status" fill="white">OVERDUE</text>
+
+  <!-- Task 3 -->
+  <rect x="290" y="340" width="870" height="100" fill="white" stroke="#e0e0e0" rx="5"/>
+  <text x="310" y="370" class="task-title">Deploy to Production</text>
+  <text x="310" y="395" class="task-desc">Deploy the latest version to production environment...</text>
+  <rect x="310" y="410" width="80" height="20" rx="10" fill="#2196F3"/>
+  <text x="350" y="425" class="status" fill="white">PENDING</text>
+
+  <!-- Pagination -->
+  <rect x="290" y="720" width="870" height="40" fill="white"/>
+  <rect x="700" y="725" width="30" height="30" rx="5" fill="#2196F3"/>
+  <text x="715" y="745" text-anchor="middle" fill="white">1</text>
+  <rect x="740" y="725" width="30" height="30" rx="5" fill="#e0e0e0"/>
+  <text x="755" y="745" text-anchor="middle">2</text>
+  <rect x="780" y="725" width="30" height="30" rx="5" fill="#e0e0e0"/>
+  <text x="795" y="745" text-anchor="middle">3</text>
+
+  <!-- Add Task Modal (Hidden by default) -->
+  <rect x="350" y="150" width="500" height="400" fill="white" stroke="#e0e0e0" rx="10" opacity="0"/>
+  <text x="380" y="190" class="task-title" opacity="0">Add New Task</text>
+</svg>

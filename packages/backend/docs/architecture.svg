@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles -->
+  <style>
+    .title { font: bold 24px sans-serif; }
+    .subtitle { font: 18px sans-serif; }
+    .layer { font: bold 16px sans-serif; fill: white; }
+    .component { font: 14px sans-serif; }
+    .arrow { stroke: #666; stroke-width: 2; marker-end: url(#arrowhead); }
+  </style>
+
+  <!-- Definitions -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="400" y="40" text-anchor="middle" class="title">Task Management System Architecture</text>
+  <text x="400" y="70" text-anchor="middle" class="subtitle">Clean Architecture Implementation</text>
+
+  <!-- Presentation Layer -->
+  <rect x="50" y="100" width="700" height="100" fill="#2196F3" rx="10"/>
+  <text x="70" y="130" class="layer">Presentation Layer</text>
+  <rect x="100" y="150" width="150" height="30" fill="white" rx="5"/>
+  <text x="175" y="170" text-anchor="middle" class="component">REST Controllers</text>
+  <rect x="300" y="150" width="150" height="30" fill="white" rx="5"/>
+  <text x="375" y="170" text-anchor="middle" class="component">DTOs</text>
+  <rect x="500" y="150" width="150" height="30" fill="white" rx="5"/>
+  <text x="575" y="170" text-anchor="middle" class="component">Swagger/OpenAPI</text>
+
+  <!-- Application Layer -->
+  <rect x="50" y="250" width="700" height="100" fill="#4CAF50" rx="10"/>
+  <text x="70" y="280" class="layer">Application Layer</text>
+  <rect x="100" y="300" width="150" height="30" fill="white" rx="5"/>
+  <text x="175" y="320" text-anchor="middle" class="component">Use Cases</text>
+  <rect x="300" y="300" width="150" height="30" fill="white" rx="5"/>
+  <text x="375" y="320" text-anchor="middle" class="component">Services</text>
+  <rect x="500" y="300" width="150" height="30" fill="white" rx="5"/>
+  <text x="575" y="320" text-anchor="middle" class="component">Validators</text>
+
+  <!-- Domain Layer -->
+  <rect x="50" y="400" width="700" height="100" fill="#FF5722" rx="10"/>
+  <text x="70" y="430" class="layer">Domain Layer</text>
+  <rect x="100" y="450" width="150" height="30" fill="white" rx="5"/>
+  <text x="175" y="470" text-anchor="middle" class="component">Entities</text>
+  <rect x="300" y="450" width="150" height="30" fill="white" rx="5"/>
+  <text x="375" y="470" text-anchor="middle" class="component">Value Objects</text>
+  <rect x="500" y="450" width="150" height="30" fill="white" rx="5"/>
+  <text x="575" y="470" text-anchor="middle" class="component">Domain Events</text>
+
+  <!-- Infrastructure Layer -->
+  <rect x="50" y="550" width="700" height="30" fill="#9C27B0" rx="10"/>
+  <text x="70" y="570" class="layer">Infrastructure Layer</text>
+
+  <!-- Arrows -->
+  <line x1="400" y1="200" x2="400" y2="250" class="arrow"/>
+  <line x1="400" y1="350" x2="400" y2="400" class="arrow"/>
+  <line x1="400" y1="500" x2="400" y2="550" class="arrow"/>
+</svg>

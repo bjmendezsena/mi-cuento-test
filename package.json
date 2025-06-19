@@ -6,11 +6,14 @@
   "scripts": {
     "frontend:dev": "pnpm --filter frontend dev",
     "backend:dev": "pnpm --filter backend dev",
-    "dev": "pnpm -r run dev",
+    "dev": "pnpm run backend:dev & wait-on tcp:3000 && pnpm run frontend:dev",
     "build": "pnpm -r run build",
     "test": "pnpm -r run test"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "wait-on": "^8.0.3"
+  }
 }

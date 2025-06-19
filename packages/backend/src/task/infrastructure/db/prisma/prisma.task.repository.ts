@@ -35,7 +35,7 @@ export class PrismaTaskRepository implements TaskRepository {
   async findAll(filters?: TasksFilters): Promise<Task[]> {
     const where: Where = {};
     const orderBy: OrderBy = {};
-
+    const { sortBy = "priority" } = filters || {};
     if (filters?.status) {
       const status = new TaskStatus(filters.status);
       const now = TaskDueDate.now();
@@ -51,10 +51,8 @@ export class PrismaTaskRepository implements TaskRepository {
       }
     }
 
-    if (filters?.sortBy) {
-      const sortOrder = filters.sortOrder || "asc";
-      orderBy[filters.sortBy] = sortOrder;
-    }
+    const sortOrder = filters?.sortOrder || "asc";
+    orderBy[sortBy] = sortOrder;
 
     const tasks = await this.prismaService.task.findMany({
       where,
